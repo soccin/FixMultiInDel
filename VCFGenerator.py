@@ -1,6 +1,16 @@
 import sys
 import csv
 
+"""
+# Lightweight VCF reader
+
+Python interator class to read VCF as 
+a csv (tab-delim) stream. Object variable
+`self.header` contains the VCF header while
+`self.cHeader` is the csv fieldnames, with
+`#CHROM` replaced by `CHROM`
+"""
+
 class VCFGenerator:
 	def __init__(self, fp):
 		self.fp=fp
