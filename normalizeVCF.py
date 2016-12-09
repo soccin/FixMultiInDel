@@ -24,25 +24,15 @@ for v in vcf:
 		print v["CHROM"],v["POS"],v["REF"],v["ALT"]
 		if len(ref)>len(alt):
 			# Deletion
-			print " ",ref
+
 			if ref.startswith(alt):
 				delta=len(alt)-1
-				print " "*(delta+1),ref[delta:]
-				print " "*(delta+1),alt[delta:]
-				print v["CHROM"],pos+delta,ref[delta:],alt[delta:]
-				print
-
 				v["POS"]=pos+delta
 				v["REF"]=ref[delta:]
 				v["ALT"]=alt[delta:]
 
 			elif ref.endswith(alt[1:]):
 				delta=len(ref)-len(alt)+1
-				print ".",ref[:delta]
-				print ".",alt[0]+" "*(delta-1)+alt[1:]
-				print v["CHROM"],pos,ref[:delta],alt[0]
-				print
-
 				v["REF"]=ref[:delta]
 				v["ALT"]=alt[0]
 
@@ -51,6 +41,11 @@ for v in vcf:
 				raise ValueError("ComplexDEL %s:%s" %(v["CHROM"],pos))
 
 			v["ID"]="DEL"
-			print v["CHROM"],v["POS"],v["REF"],v["ALT"],"FIX"
+
+		elif len(ref)<len(alt):
+			v["ID"]="INS"
+
+		else:
+			v["ID"]="ONP"
 
 	cout.writerow(v)
