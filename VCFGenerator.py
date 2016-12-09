@@ -7,8 +7,7 @@ import csv
 Python interator class to read VCF as 
 a csv (tab-delim) stream. Object variable
 `self.header` contains the VCF header while
-`self.cHeader` is the csv fieldnames, with
-`#CHROM` replaced by `CHROM`
+`self.cHeader` is the csv fieldnames
 """
 
 class VCFGenerator:
@@ -20,7 +19,6 @@ class VCFGenerator:
 			if line.startswith("#CHROM"):
 				break
 		self.cHeader=self.header[-1].split("\t")
-		self.cHeader[0]=self.cHeader[0][1:]
 		self.cin=csv.DictReader(fp,
 			fieldnames=self.cHeader,
 			delimiter="\t",

@@ -8,11 +8,9 @@ fp=open(sys.argv[1])
 
 vcf=VCFGenerator(fp)
 
-outHeader=vcf.cHeader
-outHeader[0]="#"+outHeader[0]
 cout=csv.DictWriter(
 	sys.stdout,
-	outHeader,
+	vcf.cHeader,
 	delimiter="\t",
 	lineterminator="\n")
 
@@ -22,7 +20,7 @@ for v in vcf:
 	alt=v["ALT"]
 	pos=int(v["POS"])
 	if len(ref)>1 and len(alt)>1:
-		print v["CHROM"],v["POS"],v["REF"],v["ALT"]
+		print v["#CHROM"],v["POS"],v["REF"],v["ALT"]
 		if len(ref)>len(alt):
 			
 			# Deletion
