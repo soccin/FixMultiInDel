@@ -3,7 +3,7 @@
 import sys
 from VCFGenerator import VCFGenerator
 
-fp=open("dat/test.vcf")
+fp=open(sys.argv[1])
 
 vcf=VCFGenerator(fp)
 
@@ -32,5 +32,5 @@ for v in vcf:
 				print
 
 			else:
-				print "ComplexDeletion", ref, ">", alt, 
+				print >>sys.stderr,"ComplexDeletion", ref, ">", alt, 
 				raise ValueError("ComplexDEL %s:%s" %(v["CHROM"],pos))
