@@ -8,7 +8,7 @@ case $# in
     ;;
 
     1)
-    HCF=$1
+    HVCF=$1
     OUTFILE=$(basename $HVCF | sed 's/.vcf$/___FixInDels.vcf/')
     ;;
 
@@ -21,7 +21,13 @@ case $# in
 
 esac
 
+#
+# vcfbreakmulti create ./0 genotypes that
+# should be 0/0. Fix them to prevent problems
+# downstream
+
 $SDIR/bin/vcfbreakmulti $HVCF \
     | $SDIR/bin/normalizeInDels.py \
+    | perl -pe 's|./0|0/0|g' \
     > $OUTFILE
 
