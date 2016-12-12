@@ -31,17 +31,19 @@ esac
 #
 #    FORMAT=<ID=AD,Number=R,
 #
-# for the splitter to correctly reassign AD
-#
-# vcfbreakmulti create ./0 genotypes that
-# should be 0/0. Fix them to prevent problems
-# downstream
+# for the splitter to correctly reassign AD but
+# then need to undo this for downstream steps to work
 #
 
 cat $HVCF \
     | sed 's/FORMAT=<ID=AD,Number=.,/FORMAT=<ID=AD,Number=R,/' \
-    | $SDIR/bin/vcfbreakmulti \
+    | bcftools norm -m- \
     | $SDIR/bin/normalizeInDels.py \
-    | perl -pe 's|./0|0/0|g' \
+    | sed 's/FORMAT=<ID=AD,Number=R,/FORMAT=<ID=AD,Number=.,/' \
     > $OUTFILE
 
+# vcfbreakmulti create ./0 genotypes that
+# should be 0/0. Fix them to prevent problems
+# downstream
+#
+#| perl -pe 's|./0|0/0|g' \
