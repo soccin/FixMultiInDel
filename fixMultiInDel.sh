@@ -34,16 +34,15 @@ esac
 # for the splitter to correctly reassign AD but
 # then need to undo this for downstream steps to work
 #
+# Also need to sort VCF since normalize will change
+# position of SNP's when it de-pads them.
+#
 
 cat $HVCF \
     | sed 's/FORMAT=<ID=AD,Number=.,/FORMAT=<ID=AD,Number=R,/' \
     | bcftools norm -m- \
     | $SDIR/bin/normalizeInDels.py \
+    | bedtools sort -i - -header \
     | sed 's/FORMAT=<ID=AD,Number=R,/FORMAT=<ID=AD,Number=.,/' \
     > $OUTFILE
 
-# vcfbreakmulti create ./0 genotypes that
-# should be 0/0. Fix them to prevent problems
-# downstream
-#
-#| perl -pe 's|./0|0/0|g' \
