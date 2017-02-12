@@ -1,4 +1,4 @@
 #!/bin/bash
 
-rm -v stderr.log Proj_*_FixMulti.vcf
+rm -fv stderr.log Proj_*_FixMulti.vcf
 
