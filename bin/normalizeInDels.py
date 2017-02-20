@@ -40,7 +40,7 @@ cout=csv.DictWriter(
 	lineterminator="\n")
 
 print "\n".join(vcf.header)
-print "##normalizeInDels.py<Version=1.0>"
+print "##normalizeInDels.py=<Version=1.0>"
 cout.writeheader()
 for v in vcf:
 	ref=v["REF"]
